@@ -27,7 +27,7 @@ public class SearchActivity extends AppCompatActivity {
     EditText taleFilter;
 
     int size_text = 14;
-    String color_background = "#FFFFFF";
+    //String color_background = "#FFFFFF";
     ConstraintLayout view;
 
     //Button sizeBig2, sizeBig1, sizeMedium, sizeSmall;
@@ -43,12 +43,12 @@ public class SearchActivity extends AppCompatActivity {
 
         Bundle arguments = getIntent().getExtras();
         if(arguments!=null) {
-            color_background = arguments.getString(ColorBackgroundKey);
+            //color_background = arguments.getString(ColorBackgroundKey);
             size_text = arguments.getInt(SizeTextKey);
 
         }
         view = (ConstraintLayout) findViewById(R.id.search_layout_id);
-        view.setBackgroundColor(Color.parseColor(color_background));
+        //view.setBackgroundColor(Color.parseColor(color_background));
 
 
         taleFilter = (EditText)findViewById(R.id.talesFilter);
@@ -58,7 +58,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), FairyTalesActivity.class);
-                intent.putExtra(ColorBackgroundKey, color_background);
+                //intent.putExtra(ColorBackgroundKey, color_background);
                 intent.putExtra(SizeTextKey, size_text);
                 intent.putExtra("id", id);
                 startActivity(intent);

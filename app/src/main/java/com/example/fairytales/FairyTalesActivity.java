@@ -25,7 +25,7 @@ public class FairyTalesActivity extends AppCompatActivity {
     long taleId =0;
 
     int size_text = 14;
-    String color_background = "#FFFFFF";
+    //String color_background = "#FFFFFF";
     ScrollView view;
     final static String SizeTextKey = "SizeText";
     final static String ColorBackgroundKey = "ColorBackground";
@@ -63,17 +63,17 @@ public class FairyTalesActivity extends AppCompatActivity {
 
         Bundle arguments = getIntent().getExtras();
         if(arguments!=null) {
-            color_background = arguments.getString(ColorBackgroundKey);
-            /////////
+            //color_background = arguments.getString(ColorBackgroundKey);
+            //
             size_text = arguments.getInt(SizeTextKey);
         }
         view = (ScrollView) findViewById(R.id.tale_scroll_id);
-        view.setBackgroundColor(Color.parseColor(color_background));
-        if (color_background.equals("#F8000000")) {
+        //view.setBackgroundColor(Color.parseColor(color_background));
+        /*if (color_background.equals("#F8000000")) {
             name.setTextColor(Color.WHITE);
             author.setTextColor(Color.WHITE);
             text.setTextColor(Color.WHITE);
-        }
+        }*/
 
         text.setTextSize(size_text);
 
@@ -84,7 +84,7 @@ public class FairyTalesActivity extends AppCompatActivity {
         if (extras != null) {
             taleId = extras.getLong("id");
         }
-        // получаем элемент по id из бд
+        /// получаем элемент по id из бд
         taleCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " +
                 DatabaseHelper.COLUMN_ID + "=?", new String[]{String.valueOf(taleId)});
         taleCursor.moveToFirst();

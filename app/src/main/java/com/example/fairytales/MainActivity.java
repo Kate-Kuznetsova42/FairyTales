@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     int size_text = 14;
-    String color_background = "#FFFFFF";
+    //String color_background = "#FFFFFF";
     ConstraintLayout view;
 
     //Button sizeBig2, sizeBig1, sizeMedium, sizeSmall;
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(ColorBackgroundKey, color_background);
+        //outState.putString(ColorBackgroundKey, color_background);
         outState.putInt(SizeTextKey, size_text);
         //Log.i(LOG_TAG, "onSaveInstanceState");
     }
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         size_text = savedInstanceState.getInt(SizeTextKey);
-        color_background = savedInstanceState.getString(ColorBackgroundKey);
+        //color_background = savedInstanceState.getString(ColorBackgroundKey);
         //Log.i(LOG_TAG, "onRestoreInstanceState");
     }
 
@@ -85,13 +85,10 @@ public class MainActivity extends AppCompatActivity {
         Bundle arguments = getIntent().getExtras();
         if(arguments!=null) {
             size_text = arguments.getInt(SizeTextKey);
-            color_background = arguments.getString(ColorBackgroundKey);
+            //color_background = arguments.getString(ColorBackgroundKey);
         }
         view = (ConstraintLayout) findViewById(R.id.main_layout_id);
-        view.setBackgroundColor(Color.parseColor(color_background));
-        if (color_background.equals("#F8000000")) {
-
-        }
+        //view.setBackgroundColor(Color.parseColor(color_background));
 
         // получаем элемент ListView
         fairyTalesList = findViewById(R.id.fairyTalesList);
@@ -101,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), FairyTalesActivity.class);
                 intent.putExtra("id", id);
                 intent.putExtra(SizeTextKey, size_text);
-                intent.putExtra(ColorBackgroundKey, color_background);
+                //intent.putExtra(ColorBackgroundKey, color_background);
                 startActivity(intent);
             }
         });
@@ -142,12 +139,12 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.app_bar_search) {
             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
             intent.putExtra(SizeTextKey, size_text);
-            intent.putExtra(ColorBackgroundKey, color_background);
+            //intent.putExtra(ColorBackgroundKey, color_background);
             startActivity(intent);
             return true;
         }else if (item.getItemId() == R.id.app_bar_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            intent.putExtra(ColorBackgroundKey, color_background);
+            //intent.putExtra(ColorBackgroundKey, color_background);
             intent.putExtra(SizeTextKey, size_text);
             startActivity(intent);
             return true;
