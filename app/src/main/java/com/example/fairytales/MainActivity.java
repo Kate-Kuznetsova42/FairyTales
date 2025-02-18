@@ -48,14 +48,14 @@ public class MainActivity extends AppCompatActivity {
         fairyTales = savedInstanceState.getParcelableArrayList(FairyTalesListKey, ArrayList<FairyTale>);
     }*/
 
-    int size_text = 14;
+    //int size_text = 14;
     //String color_background = "#FFFFFF";
     ConstraintLayout view;
 
     //Button sizeBig2, sizeBig1, sizeMedium, sizeSmall;
     //Button colorWh, colorSep, colorGr, colorBl;
 
-    final static String SizeTextKey = "SizeText";
+    //final static String SizeTextKey = "SizeText";
     final static String ColorBackgroundKey = "ColorBackground";
 
 
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         //outState.putString(ColorBackgroundKey, color_background);
-        outState.putInt(SizeTextKey, size_text);
+       // outState.putInt(SizeTextKey, size_text);
         //Log.i(LOG_TAG, "onSaveInstanceState");
     }
 
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        size_text = savedInstanceState.getInt(SizeTextKey);
+        //size_text = savedInstanceState.getInt(SizeTextKey);
         //color_background = savedInstanceState.getString(ColorBackgroundKey);
         //Log.i(LOG_TAG, "onRestoreInstanceState");
     }
@@ -82,11 +82,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Bundle arguments = getIntent().getExtras();
+        /*Bundle arguments = getIntent().getExtras();
         if(arguments!=null) {
             size_text = arguments.getInt(SizeTextKey);
             //color_background = arguments.getString(ColorBackgroundKey);
-        }
+        }*/
         view = (ConstraintLayout) findViewById(R.id.main_layout_id);
         //view.setBackgroundColor(Color.parseColor(color_background));
 
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), FairyTalesActivity.class);
                 intent.putExtra("id", id);
-                intent.putExtra(SizeTextKey, size_text);
+                //intent.putExtra(SizeTextKey, size_text);
                 //intent.putExtra(ColorBackgroundKey, color_background);
                 startActivity(intent);
             }
@@ -138,14 +138,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.app_bar_search) {
             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-            intent.putExtra(SizeTextKey, size_text);
+            //intent.putExtra(SizeTextKey, size_text);
             //intent.putExtra(ColorBackgroundKey, color_background);
             startActivity(intent);
+            return true;
+        }else if (item.getItemId() == R.id.app_bar_add) {
+            //Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            //intent.putExtra(ColorBackgroundKey, color_background);
+            //intent.putExtra(SizeTextKey, size_text);
+            //startActivity(intent);
             return true;
         }else if (item.getItemId() == R.id.app_bar_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             //intent.putExtra(ColorBackgroundKey, color_background);
-            intent.putExtra(SizeTextKey, size_text);
+            //intent.putExtra(SizeTextKey, size_text);
             startActivity(intent);
             return true;
         }else {

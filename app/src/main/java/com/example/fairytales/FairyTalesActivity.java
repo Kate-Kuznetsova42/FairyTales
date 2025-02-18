@@ -24,10 +24,10 @@ public class FairyTalesActivity extends AppCompatActivity {
     Cursor taleCursor;
     long taleId =0;
 
-    int size_text = 14;
+    //int size_text = 14;
     //String color_background = "#FFFFFF";
     ScrollView view;
-    final static String SizeTextKey = "SizeText";
+    //final static String SizeTextKey = "SizeText";
     final static String ColorBackgroundKey = "ColorBackground";
     final static String TaleIdKey = "TaleId";
     //private static final String LOG_TAG = SettingsActivity.class.getSimpleName();
@@ -61,12 +61,13 @@ public class FairyTalesActivity extends AppCompatActivity {
         text = findViewById(R.id.textFairyTale);
         author = findViewById(R.id.authorFairyTale);
 
-        Bundle arguments = getIntent().getExtras();
+        /*Bundle arguments = getIntent().getExtras();
         if(arguments!=null) {
             //color_background = arguments.getString(ColorBackgroundKey);
             //
-            size_text = arguments.getInt(SizeTextKey);
-        }
+            //size_text = arguments.getInt(SizeTextKey);
+           // text.setTextSize(size_text);
+        }*/
         view = (ScrollView) findViewById(R.id.tale_scroll_id);
         //view.setBackgroundColor(Color.parseColor(color_background));
         /*if (color_background.equals("#F8000000")) {
@@ -74,8 +75,6 @@ public class FairyTalesActivity extends AppCompatActivity {
             author.setTextColor(Color.WHITE);
             text.setTextColor(Color.WHITE);
         }*/
-
-        text.setTextSize(size_text);
 
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.open();
