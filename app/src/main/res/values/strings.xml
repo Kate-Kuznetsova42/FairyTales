@@ -2,8 +2,8 @@
     <string name="app_name">Fairy Tales</string>
     <string name="app_bar_settings">Настройки</string>
     <string name="app_bar_search">Поиск</string>
-    <string name="app_bar_add">Добавить сказку</string>
     <string name="textview_ActMain_str">TextView</string>
     <string name="textView_nameFR_str">Название</string>
     <string name="textView_textFR_str">Текст сказки</string>
+    <string name="app_bar_add">Добавить сказку</string>
 </resources>

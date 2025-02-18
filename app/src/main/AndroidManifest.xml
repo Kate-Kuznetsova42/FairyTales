@@ -28,9 +28,6 @@
             android:name=".FairyTalesActivity"
             android:exported="false" />
         <activity
-            android:name=".AddFairyTalesActivity"
-            android:exported="false" />
-        <activity
             android:name=".SettingsActivity"
             android:exported="false" />
     </application>

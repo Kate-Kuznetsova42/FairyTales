@@ -10,7 +10,14 @@
         android:icon="@drawable/ic_action_search"
         android:title="@string/app_bar_search"
         app:showAsAction="ifRoom" />
-
+    <item
+        android:id="@+id/app_bar_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orderInCategory="2"
+        android:icon="@drawable/ic_action_add"
+        android:title="@string/app_bar_add"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/app_bar_settings"
         android:layout_width="wrap_content"
@@ -19,4 +26,5 @@
         android:icon="@drawable/ic_action_settings"
         android:title="@string/app_bar_settings"
         app:showAsAction="ifRoom"/>
+
 </menu>
