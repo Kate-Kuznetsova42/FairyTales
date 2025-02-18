@@ -143,10 +143,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }else if (item.getItemId() == R.id.app_bar_add) {
-            //Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(MainActivity.this, AddFairyTalesActivity.class);
             //intent.putExtra(ColorBackgroundKey, color_background);
             //intent.putExtra(SizeTextKey, size_text);
-            //startActivity(intent);
+            startActivity(intent);
             return true;
         }else if (item.getItemId() == R.id.app_bar_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
