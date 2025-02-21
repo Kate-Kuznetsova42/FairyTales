@@ -102,9 +102,9 @@ public class FairyTalesActivity extends AppCompatActivity {
             //readerFile(textFairyTale);
         }*/
     }
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -112,12 +112,10 @@ public class FairyTalesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.app_bar_settings) {
             Intent intent = new Intent(FairyTalesActivity.this, SettingsActivity.class);
-            // передача объекта с ключом "hello" и значением "Hello World"
-            //intent.putExtra("hello", "Hello World");
             startActivity(intent);
             return true;
         }else {
             return super.onOptionsItemSelected(item);
         }
-    }*/
+    }
 }
