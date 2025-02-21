@@ -22,6 +22,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     static final String COLUMN_NAME = "name";
     static final String COLUMN_TEXT = "text";
     static final String COLUMN_AUTHOR = "author";
+    static final String COLUMN_SCROLLPERCENT = "scrollPercent";
     private Context myContext;
 
     DatabaseHelper(Context context) {
@@ -33,7 +34,15 @@ class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) { }
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion,  int newVersion) { }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion,  int newVersion) {
+        if (newVersion > oldVersion)
+            try {
+                copyDataBase();
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
+    }
 
     void create_db(){
 
@@ -56,6 +65,20 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 Log.d("DatabaseHelper", ex.getMessage());
             }
         }
+    }
+    private void copyDataBase() throws IOException {
+        InputStream myInput = myContext.getAssets().open(DB_NAME);
+        String outFileName = DB_PATH + DB_NAME;
+        OutputStream myOutput = new FileOutputStream(outFileName);
+        byte[] buffer = new byte[10];
+        int length;
+        while ((length = myInput.read(buffer)) > 0) {
+            myOutput.write(buffer, 0, length);
+        }
+        myOutput.flush();
+        myOutput.close();
+        myInput.close();
+
     }
     public SQLiteDatabase open()throws SQLException {
 
