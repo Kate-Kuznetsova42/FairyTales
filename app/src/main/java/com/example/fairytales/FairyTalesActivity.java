@@ -1,18 +1,19 @@
 package com.example.fairytales;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class FairyTalesActivity extends AppCompatActivity {
     TextView name;
@@ -26,7 +27,8 @@ public class FairyTalesActivity extends AppCompatActivity {
 
     //int size_text = 14;
     //String color_background = "#FFFFFF";
-    ScrollView view;
+    ScrollView scrollView;
+    int scrollPercent;
     //final static String SizeTextKey = "SizeText";
     final static String ColorBackgroundKey = "ColorBackground";
     final static String TaleIdKey = "TaleId";
@@ -68,7 +70,18 @@ public class FairyTalesActivity extends AppCompatActivity {
             //size_text = arguments.getInt(SizeTextKey);
            // text.setTextSize(size_text);
         }*/
-        view = (ScrollView) findViewById(R.id.tale_scroll_id);
+        scrollView = (ScrollView) findViewById(R.id.tale_scroll_id);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    Toast.makeText(getApplicationContext(),String.valueOf(scrollY),Toast.LENGTH_SHORT).show();
+                    scrollPercent = scrollY;
+                }
+            });
+        }
+
         //view.setBackgroundColor(Color.parseColor(color_background));
         /*if (color_background.equals("#F8000000")) {
             name.setTextColor(Color.WHITE);
@@ -90,6 +103,8 @@ public class FairyTalesActivity extends AppCompatActivity {
         name.setText(taleCursor.getString(1));
         author.setText(taleCursor.getString(2));
         text.setText(taleCursor.getString(3));
+        //scrollPercent = taleCursor.getInt(4);
+        scrollView.post(() -> scrollView.scrollTo(0, scrollPercent)); // Восстанавливаем позицию
         taleCursor.close();
         // закрываем подключение
         db.close();
