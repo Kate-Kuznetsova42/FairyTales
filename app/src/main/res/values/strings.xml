@@ -8,4 +8,9 @@
     <string name="app_bar_add">Добавить сказку</string>
     <string name="author_str">Автор</string>
     <string name="text_tale_str">Текст сказки</string>
+    <string name="delete_item_str">Удалить</string>
+    <string name="change_item_str">Изменить</string>
+    <string name="send_item_str">Отправить</string>
+    <string name="cansel">Отменить</string>
+    <string name="ok">Подтвердить</string>
 </resources>
