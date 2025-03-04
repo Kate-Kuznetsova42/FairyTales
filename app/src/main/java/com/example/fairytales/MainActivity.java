@@ -1,12 +1,17 @@
 package com.example.fairytales;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.database.SQLException;
 import android.graphics.Color;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -22,6 +27,7 @@ import android.widget.FilterQueryProvider;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     ListView fairyTalesList;
@@ -29,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     SQLiteDatabase db;
     Cursor taleCursor;
     SimpleCursorAdapter taleAdapter;
+    int idFT;
+    Cursor cursorLV_menu;
+    Cursor cursorNameFT;
 
     //ArrayList<FairyTale> fairyTales = new ArrayList<FairyTale>();
 
@@ -59,12 +68,11 @@ public class MainActivity extends AppCompatActivity {
     final static String ColorBackgroundKey = "ColorBackground";
 
 
-
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         //outState.putString(ColorBackgroundKey, color_background);
-       // outState.putInt(SizeTextKey, size_text);
+        // outState.putInt(SizeTextKey, size_text);
         //Log.i(LOG_TAG, "onSaveInstanceState");
     }
 
@@ -75,6 +83,39 @@ public class MainActivity extends AppCompatActivity {
         //size_text = savedInstanceState.getInt(SizeTextKey);
         //color_background = savedInstanceState.getString(ColorBackgroundKey);
         //Log.i(LOG_TAG, "onRestoreInstanceState");
+    }
+    public void showDialog (){
+        // Создаем AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        MainActivity.this.cursorNameFT = MainActivity.this.db.rawQuery("SELECT " + DatabaseHelper.COLUMN_NAME
+                + " FROM " + DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_ID + " = ?", new String[] {String.valueOf(MainActivity.this.idFT)});
+        cursorNameFT.moveToFirst();
+        String name = cursorNameFT.getString(cursorNameFT.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NAME));
+        builder.setTitle("Удаление"); // Заголовок
+        builder.setMessage("Вы уверены, что хотите удалить сказку '" + name + "'?"); // Текст сообщения
+        builder.setIcon(R.drawable.ic_action_delete); // Иконка
+
+        // Кнопка "Подтвердить"
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                MainActivity.this.db.execSQL("DELETE FROM " + DatabaseHelper.TABLE
+                        + " WHERE " + DatabaseHelper.COLUMN_ID + " = " + MainActivity.this.idFT + ";");
+                getData_updateListView();
+                dialog.cancel();
+            }
+        });
+        // Кнопка "Отменить"
+        builder.setNegativeButton(R.string.cansel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        // Показываем диалог
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -92,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         // получаем элемент ListView
         fairyTalesList = findViewById(R.id.fairyTalesList);
+        registerForContextMenu(fairyTalesList);
         fairyTalesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -115,6 +157,15 @@ public class MainActivity extends AppCompatActivity {
         try {
             // открываем подключение
             db = databaseHelper.open();
+            getData_updateListView();
+        } catch (SQLException ex) {
+            Toast toast = Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG);
+            toast.show();
+        }
+
+    }
+    public void getData_updateListView(){
+        try {
             //получаем данные из бд в виде курсора
             taleCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE, null);
             // определяем, какие столбцы из курсора будут выводиться в ListView
@@ -123,15 +174,22 @@ public class MainActivity extends AppCompatActivity {
             taleAdapter = new SimpleCursorAdapter(this, android.R.layout.two_line_list_item,
                     taleCursor, headers, new int[]{android.R.id.text1, android.R.id.text2}, 0);
             fairyTalesList.setAdapter(taleAdapter);
+        } catch (SQLException ex){
+            Toast toast = Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG);
+            toast.show();
         }
-        catch (SQLException ex){}
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getMenuInflater().inflate(R.menu.context_menu_ft, menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
     }
 
     @Override
@@ -142,20 +200,48 @@ public class MainActivity extends AppCompatActivity {
             //intent.putExtra(ColorBackgroundKey, color_background);
             startActivity(intent);
             return true;
-        }else if (item.getItemId() == R.id.app_bar_add) {
+        } else if (item.getItemId() == R.id.app_bar_add) {
             Intent intent = new Intent(MainActivity.this, AddFairyTalesActivity.class);
             //intent.putExtra(ColorBackgroundKey, color_background);
             //intent.putExtra(SizeTextKey, size_text);
             startActivity(intent);
             return true;
-        }else if (item.getItemId() == R.id.app_bar_settings) {
+        } else if (item.getItemId() == R.id.app_bar_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             //intent.putExtra(ColorBackgroundKey, color_background);
             //intent.putExtra(SizeTextKey, size_text);
             startActivity(intent);
             return true;
-        }else {
+        } else {
             return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        // Получаем информацию о выбранном элементе
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int position = info.position; // Позиция элемента в списке
+
+        // Получаем курсор по позиции
+        MainActivity.this.cursorLV_menu = (Cursor) MainActivity.this.fairyTalesList.getAdapter().getItem(position);
+
+        // Извлекаем ID элемента из курсора
+        MainActivity.this.idFT = cursorLV_menu.getInt(cursorLV_menu.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
+        Toast.makeText(this, String.valueOf(idFT), Toast.LENGTH_LONG).show();
+        if (item.getItemId() == R.id.delete_item) {
+            try {
+                showDialog();
+            }catch (Exception e){
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+            return true;
+        } else if (item.getItemId() == R.id.change_item) {
+            return true;
+        } else if (item.getItemId() == R.id.send_item) {
+            return true;
+        } else {
+            return super.onContextItemSelected(item);
         }
     }
 
@@ -165,5 +251,7 @@ public class MainActivity extends AppCompatActivity {
         // Закрываем подключение и курсор
         db.close();
         taleCursor.close();
+        cursorLV_menu.close();
+        cursorNameFT.close();
     }
 }
