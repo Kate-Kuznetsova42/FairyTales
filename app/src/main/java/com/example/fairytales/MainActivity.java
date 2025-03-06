@@ -201,8 +201,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (item.getItemId() == R.id.app_bar_add) {
-            Intent intent = new Intent(MainActivity.this, AddFairyTalesActivity.class);
-            //intent.putExtra(ColorBackgroundKey, color_background);
+            Intent intent = new Intent(MainActivity.this, AddAndChangeFairyTalesActivity.class);
+            intent.putExtra("type", "add");
             //intent.putExtra(SizeTextKey, size_text);
             startActivity(intent);
             return true;
@@ -237,6 +237,11 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         } else if (item.getItemId() == R.id.change_item) {
+            Intent intent = new Intent(MainActivity.this, AddAndChangeFairyTalesActivity.class);
+            intent.putExtra("idUpdate", MainActivity.this.idFT);
+            Toast.makeText(this, String.valueOf(MainActivity.this.idFT), Toast.LENGTH_LONG).show();
+            intent.putExtra("type", "change");
+            startActivity(intent);
             return true;
         } else if (item.getItemId() == R.id.send_item) {
             return true;
