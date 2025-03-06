@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Write: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
             fos.close();
-            Toast.makeText(this, "Файл сохранён: " + context.getFilesDir() + "/" + fileName, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Файл сохранён: " + context.getFilesDir() + "/" + fileName, Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -216,23 +216,27 @@ public class MainActivity extends AppCompatActivity {
 
     //Передача файла другим приложениям
     public void shareStoryFile(Context context, String fileName) {
-        // Получаем URI файла
-        File file = new File(context.getFilesDir(), fileName);
-        Uri fileUri = FileProvider.getUriForFile(
-                context,
-                context.getApplicationContext().getPackageName() + ".fileprovider",
-                file
-        );
+        try {
+            // Получаем URI файла
+            File file = new File(context.getFilesDir(), fileName);
+            Uri fileUri = FileProvider.getUriForFile(
+                    context,
+                    context.getApplicationContext().getPackageName() + ".fileprovider",
+                    file
+            );
 
-        // Создаем Intent для отправки файла
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_STREAM, fileUri); // Передаем URI файла
-        sendIntent.setType("text/plain");
+            // Создаем Intent для отправки файла
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_STREAM, fileUri); // Передаем URI файла
+            sendIntent.setType("text/plain");
 
-        // Создаем Sharesheet
-        Intent shareIntent = Intent.createChooser(sendIntent, "Поделиться сказкой");
-        context.startActivity(shareIntent);
+            // Создаем Sharesheet
+            Intent shareIntent = Intent.createChooser(sendIntent, "Поделиться сказкой");
+            context.startActivity(shareIntent);
+        } catch (Exception ex){
+            Toast.makeText(this, ex.getMessage(),Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -283,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Извлекаем ID элемента из курсора
         MainActivity.this.idFT = cursorLV_menu.getInt(cursorLV_menu.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
-        Toast.makeText(this, String.valueOf(idFT), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, String.valueOf(idFT), Toast.LENGTH_LONG).show();
         if (item.getItemId() == R.id.delete_item) {
             try {
                 showDialog();
@@ -294,7 +298,6 @@ public class MainActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.change_item) {
             Intent intent = new Intent(MainActivity.this, AddAndChangeFairyTalesActivity.class);
             intent.putExtra("idUpdate", MainActivity.this.idFT);
-            Toast.makeText(this, String.valueOf(MainActivity.this.idFT), Toast.LENGTH_LONG).show();
             intent.putExtra("type", "change");
             startActivity(intent);
             return true;
