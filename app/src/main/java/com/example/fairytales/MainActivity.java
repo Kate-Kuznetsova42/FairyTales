@@ -4,30 +4,30 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.SQLException;
-import android.graphics.Color;
-import android.text.TextWatcher;
-import android.util.Log;
+import android.net.Uri;
 import android.view.ContextMenu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.text.Editable;
-import android.widget.FilterQueryProvider;
 
 
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     ListView fairyTalesList;
@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     int idFT;
     Cursor cursorLV_menu;
     Cursor cursorNameFT;
-
+    ConstraintLayout view;
+    String nameFairyTale;
     //ArrayList<FairyTale> fairyTales = new ArrayList<FairyTale>();
 
     //FairyTaleAdapter fairyTaleAdapter;
@@ -59,13 +60,13 @@ public class MainActivity extends AppCompatActivity {
 
     //int size_text = 14;
     //String color_background = "#FFFFFF";
-    ConstraintLayout view;
+
 
     //Button sizeBig2, sizeBig1, sizeMedium, sizeSmall;
     //Button colorWh, colorSep, colorGr, colorBl;
 
     //final static String SizeTextKey = "SizeText";
-    final static String ColorBackgroundKey = "ColorBackground";
+//    final static String ColorBackgroundKey = "ColorBackground";
 
 
     @Override
@@ -180,6 +181,60 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Получение данных из базы данных
+    public String getStoryFromDatabase(int idTale) {
+        Cursor cursorForFile;
+        cursorForFile = MainActivity.this.db.rawQuery("SELECT " + DatabaseHelper.COLUMN_NAME + ", " + DatabaseHelper.COLUMN_AUTHOR + ", " + DatabaseHelper.COLUMN_TEXT
+                + " FROM " + DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_ID + " = ?", new String[] {String.valueOf(idTale)});
+        cursorForFile.moveToFirst();
+        nameFairyTale = cursorForFile.getString(cursorForFile.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NAME));
+        String author = cursorForFile.getString(cursorForFile.getColumnIndexOrThrow(DatabaseHelper.COLUMN_AUTHOR));
+        String text = cursorForFile.getString(cursorForFile.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TEXT));
+
+        String fairyTaleDB = "\n" + nameFairyTale + "\n\n" + author + "\n\n" + text; // Формируем текст сказки
+
+        cursorForFile.close();
+        return fairyTaleDB;
+    }
+
+    //Запись данных в файл
+    public void saveStoryToFile(Context context, String storyData, String fileName) {
+        try {
+            // Открываем файл для записи во внутреннем хранилище
+            FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            try {
+                fos.write(storyData.getBytes());
+            } catch (IOException e) {
+                Toast.makeText(this, "Write: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+            fos.close();
+            Toast.makeText(this, "Файл сохранён: " + context.getFilesDir() + "/" + fileName, Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    //Передача файла другим приложениям
+    public void shareStoryFile(Context context, String fileName) {
+        // Получаем URI файла
+        File file = new File(context.getFilesDir(), fileName);
+        Uri fileUri = FileProvider.getUriForFile(
+                context,
+                context.getApplicationContext().getPackageName() + ".fileprovider",
+                file
+        );
+
+        // Создаем Intent для отправки файла
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_STREAM, fileUri); // Передаем URI файла
+        sendIntent.setType("text/plain");
+
+        // Создаем Sharesheet
+        Intent shareIntent = Intent.createChooser(sendIntent, "Поделиться сказкой");
+        context.startActivity(shareIntent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -244,6 +299,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (item.getItemId() == R.id.send_item) {
+            saveStoryToFile(this, getStoryFromDatabase(MainActivity.this.idFT),  nameFairyTale + ".txt");
+            shareStoryFile(this, nameFairyTale + ".txt");
             return true;
         } else {
             return super.onContextItemSelected(item);
