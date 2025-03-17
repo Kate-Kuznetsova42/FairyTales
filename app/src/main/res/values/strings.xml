@@ -15,4 +15,5 @@
     <string name="ok">Подтвердить</string>
     <string name="add_button_str">Добавить</string>
     <string name="change_button_str">Изменить</string>
+    <string name="app_bar_import">Импортировать</string>
 </resources>
