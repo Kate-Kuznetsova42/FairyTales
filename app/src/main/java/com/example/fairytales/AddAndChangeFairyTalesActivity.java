@@ -131,7 +131,7 @@ public class AddAndChangeFairyTalesActivity extends AppCompatActivity {
     public void pickFile() {
         try {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("*/*"); // Выбор любого типа файла
+            intent.setType("text/*"); // Выбор текстового типа файла
             filePickerLauncher.launch(intent);
         } catch (Exception e){
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
