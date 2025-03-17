@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         String author = cursorForFile.getString(cursorForFile.getColumnIndexOrThrow(DatabaseHelper.COLUMN_AUTHOR));
         String text = cursorForFile.getString(cursorForFile.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TEXT));
 
-        String fairyTaleDB = "\n" + nameFairyTale + "\n\n" + author + "\n\n" + text; // Формируем текст сказки
+        String fairyTaleDB = nameFairyTale + "\n\n" + author + "\n\n" + text; // Формируем текст сказки
 
         cursorForFile.close();
         return fairyTaleDB;
