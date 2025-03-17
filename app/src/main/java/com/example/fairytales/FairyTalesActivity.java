@@ -137,7 +137,9 @@ public class FairyTalesActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.settings_menu, menu);
+        getMenuInflater().inflate(R.menu.settings_import_menu, menu);
+        // Скрываем пункт
+        menu.findItem(R.id.app_bar_content_paste).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
