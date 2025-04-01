@@ -106,7 +106,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <Button
-            android:id="@+id/colorWh"
+            android:id="@+id/colorWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -116,11 +116,11 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/colorSep"
+            android:id="@+id/colorSepia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#D7F8B672"
+            android:backgroundTint="#FFF3DD"
             android:text="Сепия"
             android:textColor="#000000"
             android:textSize="16sp" />
@@ -137,23 +137,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/color_background1">
         <Button
-            android:id="@+id/colorGr"
+            android:id="@+id/colorBlue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#F8A8A8A8"
-            android:text="Серый"
+            android:backgroundTint="#E8ECFC"
+            android:text="Голубой"
             android:textColor="#000000"
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/colorBl"
+            android:id="@+id/colorGreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#F8000000"
-            android:text="Черный"
-            android:textColor="#FFFFFF"
+            android:backgroundTint="#DBF0DC"
+            android:text="Зеленый"
+            android:textColor="#000000"
             android:textSize="16sp" />
     </LinearLayout>
 
