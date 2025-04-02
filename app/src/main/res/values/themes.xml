@@ -20,8 +20,6 @@
         <item name="colorOnPrimary">#012702</item>
         <item name="colorSecondary">#CFF622</item>
         <item name="android:windowBackground">#DBF0DC</item>
-        <item name="actionBarPopupTheme">@style/ThemeOverlay.MyApp.PopupMenu</item>
-        <item name="popupMenuStyle">@style/Widget.MyApp.PopupMenu</item>
     </style>
     <style name="Theme.Sepia" parent="Theme.Material3.DayNight">
         <item name="colorPrimary">#FFD78B</item>

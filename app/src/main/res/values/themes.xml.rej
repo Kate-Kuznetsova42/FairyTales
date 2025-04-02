@@ -1,0 +1,34 @@
+diff a/app/src/main/res/values/themes.xml b/app/src/main/res/values/themes.xml	(rejected hunks)
+@@ -4,6 +4,30 @@
+         <!-- Customize your light theme here. -->
+         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+     </style>
+-
++    <style name="Theme.Light" parent="Theme.Material3.DayNight">
++        <item name="colorPrimary">#6200EE</item>
++        <item name="colorOnPrimary">#FFFFFF</item>
++        <item name="colorSecondary">#03DAC6</item>
++    </style>
++    <style name="Theme.Blue" parent="Theme.Material3.DayNight">
++        <item name="colorPrimary">#6495ED</item>
++        <item name="colorOnPrimary">#FFFFFF</item>
++        <item name="colorSecondary">#600370</item>
++        <item name="android:windowBackground">#E8ECFC</item>
++    </style>
++    <style name="Theme.Green" parent="Theme.Material3.DayNight">
++        <item name="colorPrimary">#4CAF50</item>
++        <item name="colorOnPrimary">#012702</item>
++        <item name="colorSecondary">#CFF622</item>
++        <item name="android:windowBackground">#DBF0DC</item>
++        <item name="actionBarPopupTheme">@style/ThemeOverlay.MyApp.PopupMenu</item>
++        <item name="popupMenuStyle">@style/Widget.MyApp.PopupMenu</item>
++    </style>
++    <style name="Theme.Sepia" parent="Theme.Material3.DayNight">
++        <item name="colorPrimary">#FFD78B</item>
++        <item name="colorOnPrimary">#221600</item>
++        <item name="colorSecondary">#FA5716</item>
++        <item name="android:windowBackground">#FFF3DD</item>
++    </style>
+     <style name="Theme.FairyTales" parent="Base.Theme.FairyTales" />
+ </resources>
+\ No newline at end of file
