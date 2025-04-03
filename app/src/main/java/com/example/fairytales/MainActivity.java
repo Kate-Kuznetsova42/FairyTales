@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.view.ContextMenu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.SimpleCursorAdapter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
     Cursor taleCursor;
-    SimpleCursorAdapter taleAdapter;
+    CustomCursorAdapter taleAdapter;
     int idFT;
     Cursor cursorLV_menu;
     Cursor cursorNameFT;
@@ -172,8 +171,8 @@ public class MainActivity extends AppCompatActivity {
             // определяем, какие столбцы из курсора будут выводиться в ListView
             String[] headers = new String[]{DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_AUTHOR};
             // создаем адаптер, передаем в него курсор
-            taleAdapter = new SimpleCursorAdapter(this, android.R.layout.two_line_list_item,
-                    taleCursor, headers, new int[]{android.R.id.text1, android.R.id.text2}, 0);
+            taleAdapter = new CustomCursorAdapter(this, R.layout.activity_list_item,
+                    taleCursor, headers, new int[]{R.id.nameFairyTale_list, R.id.authorFairyTale_list}, 0);
             fairyTalesList.setAdapter(taleAdapter);
         } catch (SQLException ex){
             Toast toast = Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG);
