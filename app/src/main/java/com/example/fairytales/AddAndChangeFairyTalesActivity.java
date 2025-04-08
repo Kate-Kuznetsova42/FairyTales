@@ -181,6 +181,7 @@ public class AddAndChangeFairyTalesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.app_bar_settings) {
             Intent intent = new Intent(AddAndChangeFairyTalesActivity.this, SettingsActivity.class);
+            intent.putExtra("class", "AddAndChangeFairyTalesActivity");
             startActivity(intent);
             return true;
         } else if (item.getItemId() == R.id.app_bar_content_paste) {

@@ -266,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (item.getItemId() == R.id.app_bar_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            intent.putExtra("class", "MainActivity");
             //intent.putExtra(ColorBackgroundKey, color_background);
             //intent.putExtra(SizeTextKey, size_text);
             startActivity(intent);

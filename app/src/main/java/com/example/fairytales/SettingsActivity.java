@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,10 +16,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class SettingsActivity extends AppCompatActivity {
-    int size_text = 14;
+//    int size_text = 14;
     //String color_background = "#FFFFFF";
     ConstraintLayout view;
     Button buttonSave;
+    String nameClass;
 
     //Button sizeBig2, sizeBig1, sizeMedium, sizeSmall;
     //Button colorWh, colorSep, colorGr, colorBl;
@@ -57,6 +59,9 @@ public class SettingsActivity extends AppCompatActivity {
         if(arguments!=null) {
             //color_background = arguments.getString(ColorBackgroundKey);
             size_text = arguments.getInt(SizeTextKey);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            nameClass = extras.getString("class");
         }
         view = (ConstraintLayout) findViewById(R.id.settings_layout_id);
         //view.setBackgroundColor(Color.parseColor(color_background));
@@ -82,6 +87,22 @@ public class SettingsActivity extends AppCompatActivity {
                     intent.putExtra(SizeTextKey, size_text);
                     startActivity(intent);
                 }catch (Exception e){}
+                    Intent intent;
+                    if (nameClass.equals(getString(R.string.name_class_add_and_change_fairy_tales_activity))) {
+                        intent = new Intent(SettingsActivity.this, AddAndChangeFairyTalesActivity.class);
+                        startActivity(intent);
+                    }
+                    if (nameClass.equals(getString(R.string.name_class_fairy_tales_activity))) {
+                        intent = new Intent(SettingsActivity.this, FairyTalesActivity.class);
+                        startActivity(intent);
+                    }
+                    if (nameClass.equals(getString(R.string.name_class_main_activity))) {
+                        intent = new Intent(SettingsActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                }catch (Exception e){
+                    Toast.makeText(SettingsActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         };
         buttonSave.setOnClickListener(clckLstnrSave);

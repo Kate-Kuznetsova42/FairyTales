@@ -147,6 +147,7 @@ public class FairyTalesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.app_bar_settings) {
             Intent intent = new Intent(FairyTalesActivity.this, SettingsActivity.class);
+            intent.putExtra("class", "FairyTalesActivity");
             startActivity(intent);
             return true;
         }else {
