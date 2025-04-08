@@ -38,6 +38,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this); // Применяем тему и размер текста
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 

@@ -40,6 +40,7 @@ public class AddAndChangeFairyTalesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_and_change_fairy_tales);
 

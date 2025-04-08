@@ -35,7 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         //outState.putString(ColorBackgroundKey, color_background);
-        outState.putInt(SizeTextKey, size_text);
+        //outState.putInt(SizeTextKey, size_text);
         //Log.i(LOG_TAG, "onSaveInstanceState");
     }
 
@@ -43,50 +43,59 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        size_text = savedInstanceState.getInt(SizeTextKey);
+        //size_text = savedInstanceState.getInt(SizeTextKey);
         //color_background = savedInstanceState.getString(ColorBackgroundKey);
-        view = (ConstraintLayout) findViewById(R.id.settings_layout_id);
+        //view = (ConstraintLayout) findViewById(R.id.settings_layout_id);
         //view.setBackgroundColor(Color.parseColor(color_background));
         //Log.i(LOG_TAG, "onRestoreInstanceState");
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ThemeManager.applyTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        Bundle arguments = getIntent().getExtras();
-        if(arguments!=null) {
-            //color_background = arguments.getString(ColorBackgroundKey);
-            size_text = arguments.getInt(SizeTextKey);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             nameClass = extras.getString("class");
         }
+
+//        Bundle arguments = getIntent().getExtras();
+//        if(arguments!=null) {
+//            //color_background = arguments.getString(ColorBackgroundKey);
+//            size_text = arguments.getInt(SizeTextKey);
+//        }
         view = (ConstraintLayout) findViewById(R.id.settings_layout_id);
         //view.setBackgroundColor(Color.parseColor(color_background));
 
-        findViewById(R.id.sizeBig2).setOnClickListener((view)->onSizeClick(25));
-        findViewById(R.id.sizeBig1).setOnClickListener((view)->onSizeClick(18));
-        findViewById(R.id.sizeMedium).setOnClickListener((view)->onSizeClick(16));
-        findViewById(R.id.sizeSmall).setOnClickListener((view)->onSizeClick(14));
+        findViewById(R.id.sizeBig2).setOnClickListener((view)->{
+            ThemeManager.saveTextSize(this, ThemeManager.TEXT_SIZE_25);
+            recreate();
+        });
+        findViewById(R.id.sizeBig1).setOnClickListener((view)-> {
+            ThemeManager.saveTextSize(this, ThemeManager.TEXT_SIZE_18);
+            recreate();
+        });
+        findViewById(R.id.sizeMedium).setOnClickListener((view)->{
+            ThemeManager.saveTextSize(this, ThemeManager.TEXT_SIZE_16);
+            recreate();
+        });
+        findViewById(R.id.sizeSmall).setOnClickListener((view)->{
+            ThemeManager.saveTextSize(this, ThemeManager.TEXT_SIZE_DEF_14);
+            recreate();
+        });
 
-        /*findViewById(R.id.colorWh).setOnClickListener((view)->onColorClick("#FFFFFF"));
-        findViewById(R.id.colorSep).setOnClickListener((view)->onColorClick("#D7F8B672"));
-        findViewById(R.id.colorGr).setOnClickListener((view)->onColorClick("#F8A8A8A8"));
-        findViewById(R.id.colorBl).setOnClickListener((view)->onColorClick("#F8000000"));*/
+        findViewById(R.id.colorWhite).setOnClickListener((view)->onColorClick(ThemeManager.THEME_LIGHT));
+        findViewById(R.id.colorSepia).setOnClickListener((view)->onColorClick(ThemeManager.THEME_SEPIA));
+        findViewById(R.id.colorBlue).setOnClickListener((view)->onColorClick(ThemeManager.THEME_BLUE));
+        findViewById(R.id.colorGreen).setOnClickListener((view)->onColorClick(ThemeManager.THEME_GREEN));
 
         buttonSave = findViewById(R.id.buttonSave);
         View.OnClickListener clckLstnrSave = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    // создание объекта Intent для запуска SecondActivity
-                    Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-                    //intent.putExtra(ColorBackgroundKey, color_background);
-                    intent.putExtra(SizeTextKey, size_text);
-                    startActivity(intent);
-                }catch (Exception e){}
                     Intent intent;
                     if (nameClass.equals(getString(R.string.name_class_add_and_change_fairy_tales_activity))) {
                         intent = new Intent(SettingsActivity.this, AddAndChangeFairyTalesActivity.class);
@@ -107,7 +116,6 @@ public class SettingsActivity extends AppCompatActivity {
         };
         buttonSave.setOnClickListener(clckLstnrSave);
 
-
         //textView.setTextSize(28);
         //textViewContextMenu.setBackgroundColor(Color.RED);
 
@@ -127,12 +135,14 @@ public class SettingsActivity extends AppCompatActivity {
     }
     // обработка нажатия на кнопку размера текста
     public void onSizeClick(int size){
-        size_text = size;
+//        size_text = size;
     }
     // обработка нажатия на кнопку цвета фона
     public void onColorClick(String color){
         //color_background = color;
-        view = (ConstraintLayout) findViewById(R.id.settings_layout_id);
-        //view.setBackgroundColor(Color.parseColor(color_background));
+        ThemeManager.saveTheme(this, color);
+        recreate(); // Перезапуск активности для применения темы
+//        view = (ConstraintLayout) findViewById(R.id.settings_layout_id);
+//        //view.setBackgroundColor(Color.parseColor(color_background));
     }
 }
