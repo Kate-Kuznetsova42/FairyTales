@@ -23,6 +23,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     static final String COLUMN_TEXT = "text";
     static final String COLUMN_AUTHOR = "author";
     static final String COLUMN_SCROLLPERCENT = "scrollPercent";
+    static final String COLUMN_IMAGEPATH = "imagePath";
     private Context myContext;
 
     DatabaseHelper(Context context) {
