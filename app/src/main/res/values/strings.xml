@@ -19,4 +19,6 @@
     <string name="name_class_add_and_change_fairy_tales_activity">AddAndChangeFairyTalesActivity</string>
     <string name="name_class_fairy_tales_activity">FairyTalesActivity</string>
     <string name="name_class_main_activity">MainActivity</string>
+    <string name="textView_authorFR_str">Автор</string>
+    <string name="editor_image_btn">editor</string>
 </resources>
