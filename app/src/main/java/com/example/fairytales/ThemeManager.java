@@ -38,7 +38,6 @@ public class ThemeManager {
             case THEME_SEPIA:
                 context.setTheme(R.style.Theme_Sepia);
                 break;
-
         }
 
         // Применяем размер текста
