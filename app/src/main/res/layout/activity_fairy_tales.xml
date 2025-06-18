@@ -15,11 +15,11 @@
             android:id="@+id/nameFairyTale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:text="@string/textView_nameFR_str"
-            android:textSize="18sp"
+            android:textAlignment="center"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,14 +29,26 @@
             android:id="@+id/authorFairyTale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:text="Автор"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="@string/textView_authorFR_str"
+            android:textAlignment="center"
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameFairyTale" />
+
+        <ImageView
+            android:id="@+id/imageFairyTale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/authorFairyTale"
+            app:srcCompat="@drawable/ic_action_no_picture" />
 
         <TextView
             android:id="@+id/textFairyTale"
@@ -45,10 +57,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="20dp"
-            android:text="Текст сказки"
+            android:text="@string/textView_textFR_str"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/authorFairyTale" />
+            app:layout_constraintTop_toBottomOf="@+id/imageFairyTale" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
