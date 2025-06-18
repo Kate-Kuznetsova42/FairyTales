@@ -27,12 +27,7 @@ public class SearchActivity extends AppCompatActivity {
     EditText taleFilter;
 
     int size_text = 14;
-    //String color_background = "#FFFFFF";
     ConstraintLayout view;
-
-    //Button sizeBig2, sizeBig1, sizeMedium, sizeSmall;
-    //Button colorWh, colorSep, colorGr, colorBl;
-
     final static String SizeTextKey = "SizeText";
     final static String ColorBackgroundKey = "ColorBackground";
 
@@ -44,12 +39,10 @@ public class SearchActivity extends AppCompatActivity {
 
         Bundle arguments = getIntent().getExtras();
         if(arguments!=null) {
-            //color_background = arguments.getString(ColorBackgroundKey);
             size_text = arguments.getInt(SizeTextKey);
 
         }
         view = (ConstraintLayout) findViewById(R.id.search_layout_id);
-        //view.setBackgroundColor(Color.parseColor(color_background));
 
 
         taleFilter = (EditText)findViewById(R.id.talesFilter);
@@ -59,7 +52,6 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), FairyTalesActivity.class);
-                //intent.putExtra(ColorBackgroundKey, color_background);
                 intent.putExtra(SizeTextKey, size_text);
                 intent.putExtra("id", id);
                 startActivity(intent);
@@ -67,8 +59,6 @@ public class SearchActivity extends AppCompatActivity {
         });
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
-        // создаем базу данных
-        //databaseHelper.create_db();
     }
 
     @Override
@@ -85,11 +75,6 @@ public class SearchActivity extends AppCompatActivity {
             // создаем адаптер, передаем в него курсор
             taleAdapter = new SimpleCursorAdapter(this, android.R.layout.two_line_list_item,
                     taleCursor, headers, new int[]{android.R.id.text1, android.R.id.text2}, 0);
-
-            // если в текстовом поле есть текст, выполняем фильтрацию
-            // данная проверка нужна при переходе от одной ориентации экрана к другой
-            //if(!taleFilter.getText().toString().isEmpty())
-              //  taleAdapter.getFilter().filter(taleFilter.getText().toString());
 
             // установка слушателя изменения текста
             taleFilter.addTextChangedListener(new TextWatcher() {
@@ -109,7 +94,6 @@ public class SearchActivity extends AppCompatActivity {
                 // при изменении текста выполняем фильтрацию
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                    //taleAdapter.getFilter().filter(s.toString());
                 }
             });
 
