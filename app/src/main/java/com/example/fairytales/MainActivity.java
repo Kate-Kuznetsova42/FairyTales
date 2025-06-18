@@ -17,6 +17,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.ImageView;
 
 
 import android.content.Intent;
@@ -39,51 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Cursor cursorNameFT;
     ConstraintLayout view;
     String nameFairyTale;
-    //ArrayList<FairyTale> fairyTales = new ArrayList<FairyTale>();
-
-    //FairyTaleAdapter fairyTaleAdapter;
-
-    /*final static String FairyTalesListKey = "FairyTalesList";
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(FairyTalesListKey, ArrayList<FairyTale>);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        fairyTales = savedInstanceState.getParcelableArrayList(FairyTalesListKey, ArrayList<FairyTale>);
-    }*/
-
-    //int size_text = 14;
-    //String color_background = "#FFFFFF";
-
-
-    //Button sizeBig2, sizeBig1, sizeMedium, sizeSmall;
-    //Button colorWh, colorSep, colorGr, colorBl;
-
-    //final static String SizeTextKey = "SizeText";
-//    final static String ColorBackgroundKey = "ColorBackground";
-
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //outState.putString(ColorBackgroundKey, color_background);
-        // outState.putInt(SizeTextKey, size_text);
-        //Log.i(LOG_TAG, "onSaveInstanceState");
-    }
-
-    // получение ранее сохраненного состояния
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        //size_text = savedInstanceState.getInt(SizeTextKey);
-        //color_background = savedInstanceState.getString(ColorBackgroundKey);
-        //Log.i(LOG_TAG, "onRestoreInstanceState");
-    }
+    ImageView imageView;
     public void showDialog (){
         // Создаем AlertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -124,13 +81,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*Bundle arguments = getIntent().getExtras();
-        if(arguments!=null) {
-            size_text = arguments.getInt(SizeTextKey);
-            //color_background = arguments.getString(ColorBackgroundKey);
-        }*/
+        ImageStorageHelper storageHelper = new ImageStorageHelper(this);
+
+        // Простая проверка - если папка пуста, копируем файлы
+        if (!storageHelper.hasImagesInStorage()) {
+            storageHelper.copyPreloadedImages();
+        }
+
         view = (ConstraintLayout) findViewById(R.id.main_layout_id);
-        //view.setBackgroundColor(Color.parseColor(color_background));
 
         // получаем элемент ListView
         fairyTalesList = findViewById(R.id.fairyTalesList);
@@ -140,8 +98,6 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), FairyTalesActivity.class);
                 intent.putExtra("id", id);
-                //intent.putExtra(SizeTextKey, size_text);
-                //intent.putExtra(ColorBackgroundKey, color_background);
                 startActivity(intent);
             }
         });
@@ -167,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void getData_updateListView(){
         try {
+            imageView = findViewById(R.id.imageFairyTale_list);
             //получаем данные из бд в виде курсора
             taleCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE, null);
             // определяем, какие столбцы из курсора будут выводиться в ListView
@@ -208,7 +165,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Write: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
             fos.close();
-            //Toast.makeText(this, "Файл сохранён: " + context.getFilesDir() + "/" + fileName, Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -255,21 +211,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.app_bar_search) {
             Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-            //intent.putExtra(SizeTextKey, size_text);
-            //intent.putExtra(ColorBackgroundKey, color_background);
             startActivity(intent);
             return true;
         } else if (item.getItemId() == R.id.app_bar_add) {
             Intent intent = new Intent(MainActivity.this, AddAndChangeFairyTalesActivity.class);
             intent.putExtra("type", "add");
-            //intent.putExtra(SizeTextKey, size_text);
             startActivity(intent);
             return true;
         } else if (item.getItemId() == R.id.app_bar_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             intent.putExtra("class", "MainActivity");
-            //intent.putExtra(ColorBackgroundKey, color_background);
-            //intent.putExtra(SizeTextKey, size_text);
             startActivity(intent);
             return true;
         } else {
@@ -288,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Извлекаем ID элемента из курсора
         MainActivity.this.idFT = cursorLV_menu.getInt(cursorLV_menu.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
-        //Toast.makeText(this, String.valueOf(idFT), Toast.LENGTH_LONG).show();
         if (item.getItemId() == R.id.delete_item) {
             try {
                 showDialog();
